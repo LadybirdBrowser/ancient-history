@@ -42,6 +42,8 @@ Tab::Tab(QMainWindow* window)
     m_reload_action = make<QAction>(QIcon(reload_icon_path), "Reload");
     m_reload_action->setShortcut(QKeySequence("Ctrl+R"));
 
+    m_location_edit->setPlaceholderText("Search with Google or enter address");
+
     m_toolbar->addAction(m_back_action);
     m_toolbar->addAction(m_forward_action);
     m_toolbar->addAction(m_reload_action);
@@ -102,7 +104,14 @@ void Tab::reload()
 
 void Tab::location_edit_return_pressed()
 {
-    navigate(m_location_edit->text());
+    QString user_input = m_location_edit->text();
+
+    if (!user_input.startsWith("http") && !user_input.startsWith("https")) {
+        // TODO: add more Search providers
+        user_input.prepend("https://google.com/search?q=");
+    }
+
+    navigate(user_input);
 }
 
 void Tab::page_title_changed(QString title)
