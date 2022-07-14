@@ -27,18 +27,18 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
     auto* menu = menuBar()->addMenu("&File");
 
     auto* new_tab_action = new QAction("New &Tab");
-    new_tab_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_T));
+    new_tab_action->setShortcut(QKeySequence("Ctrl+T"));
     menu->addAction(new_tab_action);
 
     auto* quit_action = new QAction("&Quit");
-    quit_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q));
+    quit_action->setShortcut(QKeySequence("Ctrl+Q"));
     menu->addAction(quit_action);
 
     auto* inspect_menu = menuBar()->addMenu("&Inspect");
 
     auto* view_source_action = new QAction("View &Source");
     view_source_action->setIcon(QIcon(QString("%1/res/icons/16x16/filetype-html.png").arg(s_serenity_resource_root.characters())));
-    view_source_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_U));
+    view_source_action->setShortcut(QKeySequence("CTRL + U"));
     inspect_menu->addAction(view_source_action);
     QObject::connect(view_source_action, &QAction::triggered, this, [this] {
         if (m_current_tab) {

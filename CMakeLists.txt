@@ -31,7 +31,9 @@ add_compile_options(-Wno-expansion-to-defined)
 add_compile_options(-Wno-user-defined-literals)
 
 set(CMAKE_AUTOMOC ON)
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network)
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Gui Network Widgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui Network Widgets )
 
 set(SOURCES
     BrowserWindow.cpp
@@ -44,7 +46,7 @@ set(SOURCES
 )
 
 add_executable(ladybird ${SOURCES})
-target_link_libraries(ladybird PRIVATE Qt6::Widgets Qt::Network Lagom::Web Lagom::WebSocket Lagom::Main)
+target_link_libraries(ladybird PRIVATE Qt::Widgets Qt::Network Lagom::Web Lagom::WebSocket Lagom::Main)
 
 get_filename_component(
     SERENITY_SOURCE_DIR "${Lagom_SOURCE_DIR}/../.."
