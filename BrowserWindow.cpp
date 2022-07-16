@@ -30,6 +30,10 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
     new_tab_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_T));
     menu->addAction(new_tab_action);
 
+    auto* close_current_tab_action = new QAction("Close Current Tab");
+    close_current_tab_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_W));
+    menu->addAction(close_current_tab_action);
+
     auto* quit_action = new QAction("&Quit");
     quit_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q));
     menu->addAction(quit_action);
@@ -155,6 +159,7 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
         setWindowIcon(m_tabs_container->tabIcon(index));
     });
     QObject::connect(m_tabs_container, &QTabWidget::tabCloseRequested, this, &BrowserWindow::close_tab);
+    QObject::connect(close_current_tab_action, &QAction::triggered, this, &BrowserWindow::close_current_tab);
 
     new_tab();
 
@@ -198,6 +203,15 @@ void BrowserWindow::close_tab(int index)
 
     if (m_tabs_container->count() <= 1)
         m_tabs_bar->hide();
+}
+
+void BrowserWindow::close_current_tab()
+{
+    auto count = m_tabs_container->count() - 1;
+    if (!count)
+        close();
+    else
+	close_tab(m_tabs_container->currentIndex());
 }
 
 int BrowserWindow::tab_index(Tab* tab)
