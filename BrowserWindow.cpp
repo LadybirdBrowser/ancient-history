@@ -211,7 +211,7 @@ void BrowserWindow::close_current_tab()
     if (!count)
         close();
     else
-	close_tab(m_tabs_container->currentIndex());
+        close_tab(m_tabs_container->currentIndex());
 }
 
 int BrowserWindow::tab_index(Tab* tab)
