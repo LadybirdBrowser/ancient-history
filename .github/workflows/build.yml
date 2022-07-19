@@ -1,0 +1,17 @@
+name: 🛠️ Build
+on: push
+
+jobs:
+    build:
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: 📦 Install Dependencies
+              run: sudo apt install -y build-essential cmake libgl1-mesa-dev ninja-build qt6-base-dev qt6-tools-dev-tools qt6-wayland
+
+            - name: 🥷 Configure cmake
+              run: cmake -GNinja -B Build
+
+            - name: 🛠️ Build ladybird
+              run: cmake --build Build
