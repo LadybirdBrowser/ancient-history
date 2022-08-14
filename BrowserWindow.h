@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2022, Andreas Kling <kling@serenityos.org>
+ * Copyright (c) 2022, yeppiidev <yedoxstudios@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
@@ -36,6 +37,7 @@ public slots:
     void new_tab();
     void new_tab_with_url(QString const& url);
     void close_tab(int index);
+    void close_everything_else();
     void close_current_tab();
 
 private:

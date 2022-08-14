@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2022, Filiph Sandström <filiph.sandstrom@filfatstudios.com>
+ * Copyright (c) 2022, yeppiidev <yedoxstudios@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
@@ -23,6 +24,11 @@ QString Settings::new_tab_page()
     return m_qsettings->value("new_tab_page", "https://www.serenityos.net/").toString();
 }
 
+bool Settings::always_show_tabs() 
+{
+    return m_qsettings->value("always_show_tabs", true).toBool();
+}
+
 void Settings::set_homepage(QString const& homepage)
 {
     m_qsettings->setValue("homepage", homepage);
@@ -31,6 +37,11 @@ void Settings::set_homepage(QString const& homepage)
 void Settings::set_new_tab_page(QString const& new_tab_page)
 {
     m_qsettings->setValue("new_tab_page", new_tab_page);
+}
+
+void Settings::set_always_show_tabs(bool const& always_show_tabs)
+{
+    m_qsettings->setValue("always_show_tabs", always_show_tabs);
 }
 
 }

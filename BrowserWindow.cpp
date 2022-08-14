@@ -2,6 +2,7 @@
  * Copyright (c) 2022, Andreas Kling <kling@serenityos.org>
  * Copyright (c) 2022, Matthew Costa <ucosty@gmail.com>
  * Copyright (c) 2022, Filiph Sandström <filiph.sandstrom@filfatstudios.com>
+ * Copyright (c) 2022, yeppiidev <yedoxstudios@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
@@ -27,7 +28,9 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
     m_tabs_container->setTabsClosable(true);
 
     m_tabs_bar = m_tabs_container->findChild<QTabBar*>();
-    m_tabs_bar->hide();
+
+    if (!s_settings->always_show_tabs())
+        m_tabs_bar->hide();
 
     auto* menu = menuBar()->addMenu("&File");
 
@@ -35,13 +38,19 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
     new_tab_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_T));
     menu->addAction(new_tab_action);
 
+    auto* close_current_tab_action = new QAction("&Close Current Tab");
+    close_current_tab_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_W));
+    menu->addAction(close_current_tab_action);
+
+    auto* close_all_but_current_action = new QAction("&Close All But Current");
+    close_all_but_current_action->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_W));
+    menu->addAction(close_all_but_current_action);
+
+    menu->addSeparator();
+
     auto* settings_action = new QAction("&Settings");
     settings_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Comma));
     menu->addAction(settings_action);
-
-    auto* close_current_tab_action = new QAction("Close Current Tab");
-    close_current_tab_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_W));
-    menu->addAction(close_current_tab_action);
 
     auto* quit_action = new QAction("&Quit");
     quit_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q));
@@ -174,10 +183,12 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
     auto* help_menu = menuBar()->addMenu("&Help");
     auto* help_wiki_action = new QAction("&Wiki");
     
-    help_wiki_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_T));
     help_menu->addAction(help_wiki_action);
     
     QObject::connect(new_tab_action, &QAction::triggered, this, &BrowserWindow::new_tab);
+    QObject::connect(close_all_but_current_action, &QAction::triggered, this, [this] {
+        close_everything_else();
+    });
     QObject::connect(help_wiki_action, &QAction::triggered, this, [this] {
         new_tab_with_url(QString("https://wiki.serenityos.net/"));
     });
@@ -256,7 +267,20 @@ void BrowserWindow::close_tab(int index)
         return entry == tab;
     });
 
-    if (m_tabs_container->count() <= 1)
+    if (m_tabs_container->count() <= 1 && !s_settings->always_show_tabs())
+        m_tabs_bar->hide();
+}
+
+// TODO: Redundant extra method? Needs some cleanup i think
+void BrowserWindow::close_everything_else()
+{
+    // Any better way of implementing this?
+    for (int i = m_tabs_container->count(); i >= 0; i--){
+        if (i != m_tabs_container->currentIndex())
+            m_tabs_container->removeTab(i);
+    }
+
+    if (m_tabs_container->count() <= 1 && !s_settings->always_show_tabs())
         m_tabs_bar->hide();
 }
 
