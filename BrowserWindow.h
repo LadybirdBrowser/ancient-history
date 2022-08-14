@@ -34,6 +34,7 @@ public slots:
     void tab_title_changed(int index, QString const&);
     void tab_favicon_changed(int index, QIcon icon);
     void new_tab();
+    void new_tab_with_url(QString const& url);
     void close_tab(int index);
     void close_current_tab();
 

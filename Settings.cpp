@@ -18,9 +18,19 @@ QString Settings::homepage()
     return m_qsettings->value("homepage", "https://www.serenityos.org/").toString();
 }
 
+QString Settings::new_tab_page()
+{
+    return m_qsettings->value("new_tab_page", "https://www.serenityos.net/").toString();
+}
+
 void Settings::set_homepage(QString const& homepage)
 {
     m_qsettings->setValue("homepage", homepage);
+}
+
+void Settings::set_new_tab_page(QString const& new_tab_page)
+{
+    m_qsettings->setValue("new_tab_page", new_tab_page);
 }
 
 }

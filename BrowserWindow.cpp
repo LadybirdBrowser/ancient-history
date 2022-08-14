@@ -171,7 +171,16 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
         debug_request("same-origin-policy", state ? "on" : "off");
     });
 
+    auto* help_menu = menuBar()->addMenu("&Help");
+    auto* help_wiki_action = new QAction("&Wiki");
+    
+    help_wiki_action->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_T));
+    help_menu->addAction(help_wiki_action);
+    
     QObject::connect(new_tab_action, &QAction::triggered, this, &BrowserWindow::new_tab);
+    QObject::connect(help_wiki_action, &QAction::triggered, this, [this] {
+        new_tab_with_url(QString("https://wiki.serenityos.net/"));
+    });
     QObject::connect(settings_action, &QAction::triggered, this, [this] {
         new SettingsDialog(this);
     });
@@ -182,7 +191,7 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
     });
     QObject::connect(m_tabs_container, &QTabWidget::tabCloseRequested, this, &BrowserWindow::close_tab);
     QObject::connect(close_current_tab_action, &QAction::triggered, this, &BrowserWindow::close_current_tab);
-
+    
     new_tab();
 
     setCentralWidget(m_tabs_container);
@@ -213,6 +222,30 @@ void BrowserWindow::new_tab()
 
     if (m_tabs_container->count() > 1)
         m_tabs_bar->show();
+        
+    tab_ptr->navigate(QString(s_settings->new_tab_page()));
+}
+
+void BrowserWindow::new_tab_with_url(QString const& url)
+{
+    auto tab = make<Tab>(this);
+    auto tab_ptr = tab.ptr();
+    m_tabs.append(std::move(tab));
+
+    if (m_current_tab == nullptr) {
+        m_current_tab = tab_ptr;
+    }
+
+    m_tabs_container->addTab(tab_ptr, "New Tab");
+    m_tabs_container->setCurrentWidget(tab_ptr);
+
+    QObject::connect(tab_ptr, &Tab::title_changed, this, &BrowserWindow::tab_title_changed);
+    QObject::connect(tab_ptr, &Tab::favicon_changed, this, &BrowserWindow::tab_favicon_changed);
+
+    if (m_tabs_container->count() > 1)
+        m_tabs_bar->show();
+        
+    tab_ptr->navigate(url);
 }
 
 void BrowserWindow::close_tab(int index)
