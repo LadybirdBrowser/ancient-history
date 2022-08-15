@@ -21,7 +21,7 @@ QString Settings::homepage()
 
 QString Settings::new_tab_page()
 {
-    return m_qsettings->value("new_tab_page", "https://www.serenityos.net/").toString();
+    return m_qsettings->value("new_tab_page", "https://ladybird.serenityos.net/new-tab.html").toString();
 }
 
 bool Settings::always_show_tabs() 

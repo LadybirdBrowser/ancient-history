@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2022, Andreas Kling <kling@serenityos.org>
  * Copyright (c) 2022, Matthew Costa <ucosty@gmail.com>
- * Copyright (c) 2022, yeppiidev <yedoxstudios@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
@@ -26,7 +25,6 @@ Tab::Tab(QMainWindow* window)
     m_view = new WebView;
     m_toolbar = new QToolBar;
     m_location_edit = new QLineEdit;
-    m_statusbar = new QStatusBar;
 
     auto* focus_location_edit_action = new QAction("Edit Location");
     focus_location_edit_action->setShortcut(QKeySequence("Ctrl+L"));
@@ -34,7 +32,6 @@ Tab::Tab(QMainWindow* window)
 
     m_layout->addWidget(m_toolbar);
     m_layout->addWidget(m_view);
-    m_layout->addWidget(m_statusbar);
 
     auto back_icon_path = QString("%1/res/icons/16x16/go-back.png").arg(s_serenity_resource_root.characters());
     auto forward_icon_path = QString("%1/res/icons/16x16/go-forward.png").arg(s_serenity_resource_root.characters());
@@ -57,11 +54,9 @@ Tab::Tab(QMainWindow* window)
     QObject::connect(m_view, &WebView::linkHovered, [this](const QString& title) {
         const QPoint* pos = new QPoint(0, size().height() - 15);
         QToolTip::showText(*pos, title, this);
-        m_statusbar->showMessage(title);
     });
     QObject::connect(m_view, &WebView::linkUnhovered, [this] {
         QToolTip::hideText();
-        m_statusbar->clearMessage();
     });
 
     QObject::connect(m_view, &WebView::loadStarted, [this](const URL& url) {

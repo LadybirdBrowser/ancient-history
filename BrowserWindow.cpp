@@ -180,17 +180,9 @@ BrowserWindow::BrowserWindow(Core::EventLoop& event_loop)
         debug_request("same-origin-policy", state ? "on" : "off");
     });
 
-    auto* help_menu = menuBar()->addMenu("&Help");
-    auto* help_wiki_action = new QAction("&Wiki");
-    
-    help_menu->addAction(help_wiki_action);
-    
     QObject::connect(new_tab_action, &QAction::triggered, this, &BrowserWindow::new_tab);
     QObject::connect(close_all_but_current_action, &QAction::triggered, this, [this] {
         close_everything_else();
-    });
-    QObject::connect(help_wiki_action, &QAction::triggered, this, [this] {
-        new_tab_with_url(QString("https://wiki.serenityos.net/"));
     });
     QObject::connect(settings_action, &QAction::triggered, this, [this] {
         new SettingsDialog(this);

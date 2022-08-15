@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2022, Andreas Kling <kling@serenityos.org>
  * Copyright (c) 2022, Matthew Costa <ucosty@gmail.com>
- * Copyright (c) 2022, yeppiidev <yedoxstudios@gmail.com>
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
@@ -45,7 +44,6 @@ signals:
 private:
     QBoxLayout* m_layout;
     QToolBar* m_toolbar { nullptr };
-    QStatusBar* m_statusbar { nullptr };
     QLineEdit* m_location_edit { nullptr };
     WebView* m_view { nullptr };
     QMainWindow* m_window { nullptr };
