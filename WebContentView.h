@@ -175,6 +175,7 @@ signals:
     Gfx::IntRect maximize_window();
     Gfx::IntRect minimize_window();
     Gfx::IntRect fullscreen_window();
+    void link_content_menu(QPoint &local_position, const QUrl&, unsigned modifiers);
 
 private:
     void request_repaint();

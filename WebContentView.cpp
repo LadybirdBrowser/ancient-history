@@ -834,11 +834,13 @@ void WebContentView::notify_server_did_request_context_menu(Badge<WebContentClie
     (void)content_position;
 }
 
-void WebContentView::notify_server_did_request_link_context_menu(Badge<WebContentClient>, Gfx::IntPoint const& content_position, AK::URL const& url, String const&, unsigned)
+void WebContentView::notify_server_did_request_link_context_menu(Badge<WebContentClient>, Gfx::IntPoint const& content_position, AK::URL const& url, String const&, unsigned modifiers)
 {
-    // FIXME
-    (void)content_position;
-    (void)url;
+    auto view_offset = QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value());
+    auto position_in_page = qpoint_from_intpoint(content_position);
+    auto position_in_view = position_in_page - view_offset;
+    auto qurl = qurl_from_akurl(url);
+    emit link_content_menu(position_in_view, qurl, modifiers);
 }
 
 void WebContentView::notify_server_did_request_image_context_menu(Badge<WebContentClient>, Gfx::IntPoint const& content_position, AK::URL const& url, String const&, unsigned, Gfx::ShareableBitmap const& bitmap)

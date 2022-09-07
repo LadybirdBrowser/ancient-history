@@ -10,12 +10,16 @@
 #include "Settings.h"
 #include "Utilities.h"
 #include <Browser/History.h>
-#include <QCoreApplication>
 #include <QFont>
 #include <QFontMetrics>
 #include <QPlainTextEdit>
+#include <QClipboard>
+#include <QFont>
+#include <QFontMetrics>
+#include <QGuiApplication>
 #include <QPoint>
 #include <QResizeEvent>
+#include <QUrl>
 
 extern String s_serenity_resource_root;
 extern Browser::Settings* s_settings;
@@ -92,6 +96,26 @@ Tab::Tab(BrowserWindow* window, int webdriver_fd_passing_socket)
 
         m_back_action->setEnabled(m_history.can_go_back());
         m_forward_action->setEnabled(m_history.can_go_forward());
+    });
+
+    QObject::connect(m_view, &WebContentView::link_content_menu, [this] (QPoint &local_position, const QUrl& url, unsigned ){
+        auto global_position = this->mapToGlobal(local_position);
+        auto menu = QMenu();
+
+        auto *copy_link_action = new QAction(tr("&Copy Link"));
+        auto *open_link_in_tab_action = new QAction(tr("Open link in a &new tab"));
+
+        menu.addAction(open_link_in_tab_action);
+        menu.addAction(copy_link_action);
+        auto res = menu.exec(global_position);
+
+        if (res == copy_link_action) {
+            QClipboard *clipboard = QGuiApplication::clipboard();
+            clipboard->setText(url.toString());
+        } else if (res == open_link_in_tab_action){
+            auto browser_window = static_cast<BrowserWindow*>(m_window);
+            browser_window->new_tab_with_url(url);
+        }
     });
     QObject::connect(m_location_edit, &QLineEdit::returnPressed, this, &Tab::location_edit_return_pressed);
     QObject::connect(m_view, &WebContentView::title_changed, this, &Tab::page_title_changed);
