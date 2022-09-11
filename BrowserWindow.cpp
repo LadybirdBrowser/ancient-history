@@ -210,7 +210,9 @@ BrowserWindow::BrowserWindow()
         debug_request("same-origin-policy", state ? "on" : "off");
     });
 
-    QObject::connect(new_tab_action, &QAction::triggered, this, &BrowserWindow::new_tab);
+    QObject::connect(new_tab_action, &QAction::triggered, this, [this] {
+        new_tab();
+    });
     QObject::connect(settings_action, &QAction::triggered, this, [this] {
         new SettingsDialog(this);
     });
@@ -235,9 +237,9 @@ void BrowserWindow::debug_request(String const& request, String const& argument)
     m_current_tab->debug_request(request, argument);
 }
 
-void BrowserWindow::new_tab()
+void BrowserWindow::new_tab(QString const& url)
 {
-    auto tab = make<Tab>(this);
+    auto tab = make<Tab>(this, url.toUtf8().constData());
     auto tab_ptr = tab.ptr();
     m_tabs.append(std::move(tab));
 
@@ -250,6 +252,7 @@ void BrowserWindow::new_tab()
 
     QObject::connect(tab_ptr, &Tab::title_changed, this, &BrowserWindow::tab_title_changed);
     QObject::connect(tab_ptr, &Tab::favicon_changed, this, &BrowserWindow::tab_favicon_changed);
+    QObject::connect(tab_ptr, &Tab::new_tab_requested, this, &BrowserWindow::new_tab);
 
     if (m_tabs_container->count() > 1)
         m_tabs_bar->show();

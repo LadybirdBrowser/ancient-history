@@ -68,6 +68,7 @@ signals:
     void load_started(const URL&);
     void title_changed(QString);
     void favicon_changed(QIcon);
+    void new_tab_requested(QString);
 
 private:
     void update_viewport_rect();

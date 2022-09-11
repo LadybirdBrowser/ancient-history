@@ -18,7 +18,7 @@
 extern String s_serenity_resource_root;
 extern Browser::Settings* s_settings;
 
-Tab::Tab(QMainWindow* window)
+Tab::Tab(QMainWindow* window, String const& url)
     : m_window(window)
 {
     m_layout = new QBoxLayout(QBoxLayout::Direction::TopToBottom, this);
@@ -79,12 +79,17 @@ Tab::Tab(QMainWindow* window)
     QObject::connect(m_location_edit, &QLineEdit::returnPressed, this, &Tab::location_edit_return_pressed);
     QObject::connect(m_view, &WebView::title_changed, this, &Tab::page_title_changed);
     QObject::connect(m_view, &WebView::favicon_changed, this, &Tab::page_favicon_changed);
+    QObject::connect(m_view, &WebView::new_tab_requested, this, &Tab::new_tab_requested);
 
     QObject::connect(m_back_action, &QAction::triggered, this, &Tab::back);
     QObject::connect(m_forward_action, &QAction::triggered, this, &Tab::forward);
     QObject::connect(m_home_action, &QAction::triggered, this, &Tab::home);
     QObject::connect(m_reload_action, &QAction::triggered, this, &Tab::reload);
     QObject::connect(focus_location_editor_action, &QAction::triggered, this, &Tab::focus_location_editor);
+
+    if (!url.is_empty()) {
+        view().load(url);
+    }
 }
 
 void Tab::focus_location_editor()

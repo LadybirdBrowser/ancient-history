@@ -20,7 +20,7 @@
 class Tab final : public QWidget {
     Q_OBJECT
 public:
-    explicit Tab(QMainWindow* window);
+    explicit Tab(QMainWindow* window, String const& url = "");
 
     WebView& view() { return *m_view; }
 
@@ -41,6 +41,7 @@ public slots:
 signals:
     void title_changed(int id, QString);
     void favicon_changed(int id, QIcon);
+    void new_tab_requested(QString);
 
 private:
     virtual void resizeEvent(QResizeEvent*) override;
