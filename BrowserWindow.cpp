@@ -210,7 +210,7 @@ BrowserWindow::BrowserWindow()
     });
 
     QObject::connect(new_tab_action, &QAction::triggered, this, [this] {
-        new_tab();
+        new_tab("", WebView::TabOpenFocusBehaviour::FocusNewlyOpenedTab);
     });
     QObject::connect(settings_action, &QAction::triggered, this, [this] {
         new SettingsDialog(this);
@@ -224,7 +224,7 @@ BrowserWindow::BrowserWindow()
     QObject::connect(m_tabs_container, &QTabWidget::tabCloseRequested, this, &BrowserWindow::close_tab);
     QObject::connect(close_current_tab_action, &QAction::triggered, this, &BrowserWindow::close_current_tab);
 
-    new_tab();
+    new_tab("", WebView::TabOpenFocusBehaviour::FocusNewlyOpenedTab);
 
     setCentralWidget(m_tabs_container);
 }
@@ -236,7 +236,7 @@ void BrowserWindow::debug_request(String const& request, String const& argument)
     m_current_tab->debug_request(request, argument);
 }
 
-void BrowserWindow::new_tab(QString const& url)
+void BrowserWindow::new_tab(QString const& url, WebView::TabOpenFocusBehaviour focus_behaviour)
 {
     auto tab = make<Tab>(this, url.toUtf8().constData());
     auto tab_ptr = tab.ptr();
@@ -247,13 +247,14 @@ void BrowserWindow::new_tab(QString const& url)
     }
 
     m_tabs_container->addTab(tab_ptr, "New Tab");
-    m_tabs_container->setCurrentWidget(tab_ptr);
+    if (focus_behaviour == WebView::TabOpenFocusBehaviour::FocusNewlyOpenedTab) {
+        m_tabs_container->setCurrentWidget(tab_ptr);
+        tab_ptr->focus_location_editor();
+    }
 
     QObject::connect(tab_ptr, &Tab::title_changed, this, &BrowserWindow::tab_title_changed);
     QObject::connect(tab_ptr, &Tab::favicon_changed, this, &BrowserWindow::tab_favicon_changed);
     QObject::connect(tab_ptr, &Tab::new_tab_requested, this, &BrowserWindow::new_tab);
-
-    tab_ptr->focus_location_editor();
 }
 
 void BrowserWindow::close_tab(int index)

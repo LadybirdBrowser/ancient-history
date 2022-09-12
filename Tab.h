@@ -41,7 +41,7 @@ public slots:
 signals:
     void title_changed(int id, QString);
     void favicon_changed(int id, QIcon);
-    void new_tab_requested(QString);
+    void new_tab_requested(QString, WebView::TabOpenFocusBehaviour);
 
 private:
     virtual void resizeEvent(QResizeEvent*) override;

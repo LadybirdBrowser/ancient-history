@@ -171,7 +171,7 @@ void PageClientLadybird::page_did_click_link(AK::URL const&, String const&, unsi
 
 void PageClientLadybird::page_did_middle_click_link(AK::URL const& url, String const&, unsigned)
 {
-    emit m_view.new_tab_requested(url.to_string().characters());
+    emit m_view.new_tab_requested(url.to_string().characters(), WebView::TabOpenFocusBehaviour::PreserveFocus);
 }
 
 void PageClientLadybird::page_did_enter_tooltip_area(Gfx::IntPoint const& content_position, String const& tooltip)

@@ -62,13 +62,18 @@ public:
 
     void set_color_scheme(ColorScheme);
 
+    enum TabOpenFocusBehaviour {
+        FocusNewlyOpenedTab,
+        PreserveFocus
+    };
+
 signals:
     void link_hovered(QString, int timeout = 0);
     void link_unhovered();
     void load_started(const URL&);
     void title_changed(QString);
     void favicon_changed(QIcon);
-    void new_tab_requested(QString);
+    void new_tab_requested(QString, TabOpenFocusBehaviour);
 
 private:
     void update_viewport_rect();
