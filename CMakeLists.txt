@@ -44,7 +44,7 @@ add_compile_options(-Wno-user-defined-literals)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network LinguistTools)
 
 set(SOURCES
     BrowserWindow.cpp
@@ -71,6 +71,15 @@ set(SOURCES
 qt_add_executable(ladybird ${SOURCES}
     MANUAL_FINALIZATION
 )
+qt_add_translations(ladybird
+    TS_FILES i18n/ladybird_de.ts i18n/ladybird_en.ts
+    SOURCES ${SOURCES}
+)
+
+qt_add_resources(ladybird "i18n"
+    PREFIX "/i18n"
+    FILES ${QM_FILES})
+
 target_link_libraries(ladybird PRIVATE Qt::Widgets Qt::Network LibWeb LibWebSocket LibGL LibSoftGPU LibMain)
 
 set_target_properties(ladybird PROPERTIES

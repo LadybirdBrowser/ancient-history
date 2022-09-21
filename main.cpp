@@ -11,6 +11,7 @@
 #include <LibCore/Timer.h>
 #include <LibMain/Main.h>
 #include <QApplication>
+#include <QTranslator>
 #include <QWidget>
 
 extern void initialize_web_engine();
@@ -19,13 +20,19 @@ Browser::Settings* s_settings;
 ErrorOr<int> serenity_main(Main::Arguments arguments)
 {
     QApplication app(arguments.argc, arguments.argv);
+    auto locale = QLocale::system();
+
+    QTranslator translator;
+
+    if (translator.load(locale, "ladybird", "_", ":/i18n"))
+        app.installTranslator(&translator);
 
     initialize_web_engine();
 
     String url;
     Core::ArgsParser args_parser;
-    args_parser.set_general_help("The Ladybird web browser :^)");
-    args_parser.add_positional_argument(url, "URL to open", "url", Core::ArgsParser::Required::No);
+    args_parser.set_general_help(qPrintable(QCoreApplication::translate("main", "The Ladybird web browser :^)")));
+    args_parser.add_positional_argument(url, qPrintable(QCoreApplication::translate("main", "URL to open")), "url", Core::ArgsParser::Required::No);
     args_parser.parse(arguments);
 
     s_settings = new Browser::Settings();

@@ -68,6 +68,14 @@ export SERENITY_SOURCE_DIR=${PWD}/Build/serenity
 ./Build/ladybird # or, in macOS: open ./Build/ladybird.app
 ```
 
+## Updating translation files
+
+If you change, add or remove any strings, it is recommended to update the translation files before commiting:
+
+```
+ninja -C Build ladybird_lupdate
+```
+
 ## Experimental Android Build Steps
 
 ### Prepping Qt Creator

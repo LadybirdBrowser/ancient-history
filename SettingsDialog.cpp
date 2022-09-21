@@ -16,9 +16,9 @@ SettingsDialog::SettingsDialog(QMainWindow* window)
 {
     m_layout = new QFormLayout;
     m_homepage = new QLineEdit;
-    m_ok_button = new QPushButton("&Save");
+    m_ok_button = new QPushButton(tr("&Save"));
 
-    m_layout->addWidget(new QLabel("Homepage"));
+    m_layout->addWidget(new QLabel(tr("Homepage")));
     m_layout->addWidget(m_homepage);
     m_layout->addWidget(m_ok_button);
 
@@ -28,7 +28,7 @@ SettingsDialog::SettingsDialog(QMainWindow* window)
         close();
     });
     
-    setWindowTitle("Settings");
+    setWindowTitle(tr("Settings"));
     setFixedWidth(300);
     setLayout(m_layout);
     show();
