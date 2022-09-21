@@ -71,7 +71,7 @@
     <message>
         <location filename="../BrowserWindow.cpp" line="91"/>
         <source>View &amp;Source</source>
-        <translation>Seitenquelltet anzeigen</translation>
+        <translation>Seitenquelltext anzeigen</translation>
     </message>
     <message>
         <location filename="../BrowserWindow.cpp" line="107"/>
