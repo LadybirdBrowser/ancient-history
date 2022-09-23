@@ -79,7 +79,11 @@ WebView::WebView()
     // FIXME: Allow passing these values as arguments
     m_page_client->set_viewport_rect({ 0, 0, 800, 600 });
 
+#ifdef AK_OS_MACOS
+    m_inverse_pixel_scaling_ratio = 1.0;
+#else
     m_inverse_pixel_scaling_ratio = 1.0 / devicePixelRatio();
+#endif
 
     verticalScrollBar()->setSingleStep(24);
     horizontalScrollBar()->setSingleStep(24);
