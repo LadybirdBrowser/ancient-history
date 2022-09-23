@@ -68,7 +68,13 @@ set(SOURCES
     WebSocketLadybird.cpp
 )
 
-qt_add_executable(ladybird ${SOURCES}
+set(MACOSX_BUNDLE_ICON_FILE icon.icns)
+
+set(ladybird_ICON ${CMAKE_CURRENT_SOURCE_DIR}/icon.icns)
+set_source_files_properties(${ladybird_ICON} PROPERTIES
+    MACOSX_PACKAGE_LOCATION "Resources")
+
+qt_add_executable(ladybird ${SOURCES} ${ladybird_ICON}
     MANUAL_FINALIZATION
 )
 target_link_libraries(ladybird PRIVATE Qt::Widgets Qt::Network LibWeb LibWebSocket LibGL LibSoftGPU LibMain)
