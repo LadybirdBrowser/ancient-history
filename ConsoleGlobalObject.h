@@ -39,7 +39,6 @@ public:
     virtual JS::ThrowCompletionOr<bool> internal_delete(JS::PropertyKey const& name) override;
     virtual JS::ThrowCompletionOr<JS::MarkedVector<JS::Value>> internal_own_property_keys() const override;
 
-
 private:
     virtual void visit_edges(Visitor&) override;
 

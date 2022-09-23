@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include <LibWeb/Page/Page.h>
-#include <LibGfx/Rect.h>
 #include "ConsoleClient.h"
 #include "CookieJar.h"
+#include <LibGfx/Rect.h>
+#include <LibWeb/Page/Page.h>
 
 class WebView;
 

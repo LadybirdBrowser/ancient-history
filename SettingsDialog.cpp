@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
-#include "Settings.h"
 #include "SettingsDialog.h"
+#include "Settings.h"
 #include <QCloseEvent>
 #include <QLabel>
 
@@ -27,7 +27,7 @@ SettingsDialog::SettingsDialog(QMainWindow* window)
     QObject::connect(m_ok_button, &QPushButton::released, this, [this] {
         close();
     });
-    
+
     setWindowTitle("Settings");
     setFixedWidth(300);
     setLayout(m_layout);
@@ -35,7 +35,7 @@ SettingsDialog::SettingsDialog(QMainWindow* window)
     setFocus();
 }
 
-void SettingsDialog::closeEvent(QCloseEvent *event)
+void SettingsDialog::closeEvent(QCloseEvent* event)
 {
     save();
     event->accept();
