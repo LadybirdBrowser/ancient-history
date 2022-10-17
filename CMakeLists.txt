@@ -65,11 +65,7 @@ set(SOURCES
 qt_add_executable(ladybird ${SOURCES}
     MANUAL_FINALIZATION
 )
-#target_link_libraries(ladybird PRIVATE Qt::Widgets Qt::Network LibWeb LibGUI LibWeb LibWebView LibGL LibSoftGPU LibMain)
 target_link_libraries(ladybird PRIVATE Qt::Widgets Qt::Network LibWeb LibWebSocket LibGUI LibWebView LibGL LibSoftGPU LibMain)
-
-target_include_directories(ladybird PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-target_include_directories(ladybird PRIVATE ${SERENITY_SOURCE_DIR}/Userland/Services/)
 
 set_target_properties(ladybird PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER org.SerenityOS.Ladybird

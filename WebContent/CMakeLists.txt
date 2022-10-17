@@ -18,6 +18,6 @@ set(WEBCONTENT_SOURCES
 
 qt_add_executable(WebContent ${WEBCONTENT_SOURCES})
 
-target_include_directories(WebContent PRIVATE ${SERENITY_SOURCE_DIR}/Userland/Services/)
-target_include_directories(WebContent PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
+target_include_directories(WebContent PRIVATE "${SERENITY_SOURCE_DIR}/Userland/Services")
+
 target_link_libraries(WebContent PRIVATE Qt::Core Qt::Network Qt::Gui LibCore LibIPC LibGfx LibWebView LibWebSocket LibWeb LibMain)
