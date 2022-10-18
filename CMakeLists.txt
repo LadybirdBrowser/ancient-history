@@ -97,6 +97,14 @@ qt_finalize_executable(ladybird)
 add_subdirectory(WebContent)
 add_dependencies(ladybird WebContent)
 
+if (APPLE)
+    set(app_dir "$<TARGET_FILE_DIR:ladybird>")
+    set(bundle_dir "$<TARGET_BUNDLE_DIR:ladybird>")
+    add_custom_command(TARGET ladybird POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:WebContent>" "${app_dir}"
+    )
+endif()
+
 if(NOT CMAKE_SKIP_INSTALL_RULES)
     include(cmake/InstallRules.cmake)
 endif()
