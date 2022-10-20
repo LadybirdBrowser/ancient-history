@@ -80,19 +80,17 @@ set(SOURCES
 qt_add_executable(ladybird ${SOURCES}
     MANUAL_FINALIZATION
 )
-#target_link_libraries(ladybird PRIVATE Qt::Widgets Qt::Network LibWeb LibGUI LibWeb LibWebView LibGL LibSoftGPU LibMain)
 target_link_libraries(ladybird PRIVATE Qt::Widgets Qt::Network LibWeb LibWebSocket LibGUI LibWebView LibGL LibSoftGPU LibMain)
 
-target_include_directories(ladybird PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-target_include_directories(ladybird PRIVATE ${SERENITY_SOURCE_DIR}/Userland/Services/)
-
 set_target_properties(ladybird PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER org.serenityos.ladybird
+    MACOSX_BUNDLE_GUI_IDENTIFIER org.SerenityOS.Ladybird
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist"
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+    XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED "NO"
 )
 
 if (ANDROID)
@@ -113,6 +111,14 @@ qt_finalize_executable(ladybird)
 
 add_subdirectory(WebContent)
 add_dependencies(ladybird WebContent)
+
+if (APPLE)
+    set(app_dir "$<TARGET_FILE_DIR:ladybird>")
+    set(bundle_dir "$<TARGET_BUNDLE_DIR:ladybird>")
+    add_custom_command(TARGET ladybird POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:WebContent>" "${app_dir}"
+    )
+endif()
 
 if(NOT CMAKE_SKIP_INSTALL_RULES)
     include(cmake/InstallRules.cmake)

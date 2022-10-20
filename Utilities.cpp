@@ -41,7 +41,11 @@ void platform_init()
         if (Core::File::is_directory(home_lagom))
             return home_lagom;
         auto app_dir = akstring_from_qstring(QCoreApplication::applicationDirPath());
+#    ifdef AK_OS_MACOS
+        return LexicalPath(app_dir).parent().append("Resources"sv).string();
+#    else
         return LexicalPath(app_dir).parent().append("share"sv).string();
+#    endif
     }();
 #endif
 }
