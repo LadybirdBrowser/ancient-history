@@ -107,10 +107,17 @@ add_custom_target(run
     USES_TERMINAL
 )
 
-add_custom_target(debug
-    COMMAND "${CMAKE_COMMAND}" -E env "SERENITY_SOURCE_DIR=${SERENITY_SOURCE_DIR}" gdb -ex "set follow-fork-mode child" "$<TARGET_FILE:ladybird>"
-    USES_TERMINAL
-)
+if (APPLE)
+    add_custom_target(debug
+        COMMAND "${CMAKE_COMMAND}" -E env "SERENITY_SOURCE_DIR=${SERENITY_SOURCE_DIR}" lldb --one-line "settings set target.process.follow-fork-mode child" "$<TARGET_FILE:ladybird>"
+        USES_TERMINAL
+    )
+else()
+    add_custom_target(debug
+        COMMAND "${CMAKE_COMMAND}" -E env "SERENITY_SOURCE_DIR=${SERENITY_SOURCE_DIR}" gdb -ex "set follow-fork-mode child" "$<TARGET_FILE:ladybird>"
+        USES_TERMINAL
+    )
+endif()
 
 qt_finalize_executable(ladybird)
 
