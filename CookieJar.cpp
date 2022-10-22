@@ -170,7 +170,7 @@ void CookieJar::store_cookie(Web::Cookie::ParsedCookie const& parsed_cookie, con
     // https://tools.ietf.org/html/rfc6265#section-5.3
 
     // 2. Create a new cookie with name cookie-name, value cookie-value. Set the creation-time and the last-access-time to the current date and time.
-    Web::Cookie::Cookie cookie { parsed_cookie.name, parsed_cookie.value };
+    Web::Cookie::Cookie cookie { parsed_cookie.name, parsed_cookie.value, parsed_cookie.same_site_attribute };
     cookie.creation_time = Core::DateTime::now();
     cookie.last_access_time = cookie.creation_time;
 
@@ -312,6 +312,6 @@ void CookieJar::purge_expired_cookies()
 
     for (auto const& key : keys_to_evict)
         m_cookies.remove(key);
-}
+}https://github.com/SerenityOS/ladybird/blob/master/CookieJar.cpp
 
 }
