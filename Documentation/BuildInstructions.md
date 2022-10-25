@@ -19,6 +19,11 @@ On Fedora or derivatives:
 sudo dnf install cmake libglvnd-devel ninja-build qt6-qtbase-devel qt6-qttools-devel qt6-qtwayland-devel
 ```
 
+On Void Linux:
+```
+sudo xbps-install base-devel cmake glu-devel ninja qt6-base-devel qt6-tools-devel
+```
+
 On macOS:
 
 ```
