@@ -147,6 +147,7 @@ void Tab::reload()
 void Tab::location_edit_return_pressed()
 {
     navigate(m_location_edit->text());
+    m_location_edit->clearFocus();
 }
 
 void Tab::page_title_changed(QString title)

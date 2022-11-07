@@ -30,6 +30,8 @@ public:
 
     void debug_request(String const& request, String const& argument);
 
+    QLineEdit* m_location_edit { nullptr };
+
 public slots:
     void focus_location_editor();
     void location_edit_return_pressed();
@@ -51,7 +53,6 @@ private:
 
     QBoxLayout* m_layout;
     QToolBar* m_toolbar { nullptr };
-    QLineEdit* m_location_edit { nullptr };
     WebContentView* m_view { nullptr };
     BrowserWindow* m_window { nullptr };
     Browser::History m_history;

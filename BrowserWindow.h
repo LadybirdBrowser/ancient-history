@@ -42,6 +42,7 @@ public slots:
 
 private:
     void debug_request(String const& request, String const& argument = "");
+    bool eventFilter(QObject* obj, QEvent* event);
 
     QTabWidget* m_tabs_container { nullptr };
     NonnullOwnPtrVector<Tab> m_tabs;

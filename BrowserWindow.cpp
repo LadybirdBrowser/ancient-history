@@ -7,16 +7,18 @@
  */
 
 #include "BrowserWindow.h"
-#include "WebContentView.h"
 #include "Settings.h"
 #include "SettingsDialog.h"
 #include "Utilities.h"
+#include "WebContentView.h"
 #include <AK/TypeCasts.h>
 #include <LibWeb/Loader/ResourceLoader.h>
 #include <QAction>
 #include <QActionGroup>
+#include <QCoreApplication>
 #include <QInputDialog>
 #include <QPlainTextEdit>
+#include <QTimer>
 
 extern String s_serenity_resource_root;
 extern Browser::Settings* s_settings;
@@ -268,6 +270,8 @@ BrowserWindow::BrowserWindow()
     QObject::connect(m_tabs_container, &QTabWidget::tabCloseRequested, this, &BrowserWindow::close_tab);
     QObject::connect(close_current_tab_action, &QAction::triggered, this, &BrowserWindow::close_current_tab);
 
+    QCoreApplication::instance()->installEventFilter(this);
+
     new_tab();
 
     setCentralWidget(m_tabs_container);
@@ -278,6 +282,14 @@ void BrowserWindow::debug_request(String const& request, String const& argument)
     if (!m_current_tab)
         return;
     m_current_tab->debug_request(request, argument);
+}
+
+bool BrowserWindow::eventFilter(QObject* object, QEvent* event)
+{
+    if (m_current_tab && event->type() == QEvent::FocusIn)
+        if (object == m_current_tab->m_location_edit)
+            QTimer::singleShot(0, m_current_tab->m_location_edit, &QLineEdit::selectAll);
+    return false;
 }
 
 void BrowserWindow::new_tab()
