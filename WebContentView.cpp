@@ -311,8 +311,7 @@ void WebContentView::mouseReleaseEvent(QMouseEvent* event)
 
     if (event->button() & Qt::MouseButton::BackButton) {
         emit back_mouse_button();
-    }
-    else if (event->button() & Qt::MouseButton::ForwardButton) {
+    } else if (event->button() & Qt::MouseButton::ForwardButton) {
         emit forward_mouse_button();
     }
 
@@ -908,6 +907,30 @@ void WebContentView::notify_server_did_update_resource_count(i32 count_waiting)
 {
     // FIXME
     (void)count_waiting;
+}
+
+void WebContentView::notify_server_did_request_restore_window()
+{
+}
+
+Gfx::IntPoint WebContentView::notify_server_did_request_reposition_window(Gfx::IntPoint const&)
+{
+    return {};
+}
+
+Gfx::IntSize WebContentView::notify_server_did_request_resize_window(Gfx::IntSize const&)
+{
+    return {};
+}
+
+Gfx::IntRect WebContentView::notify_server_did_request_maximize_window()
+{
+    return {};
+}
+
+Gfx::IntRect WebContentView::notify_server_did_request_minimize_window()
+{
+    return {};
 }
 
 void WebContentView::notify_server_did_request_file(Badge<WebContentClient>, String const& path, i32 request_id)
