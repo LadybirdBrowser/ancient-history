@@ -7,11 +7,11 @@
 #pragma once
 
 #define AK_DONT_REPLACE_STD
+#include <AK/String.h>
 #include <AK/URL.h>
 #include <LibGfx/Forward.h>
-#include <AK/String.h>
-#include <QString>
 #include <QPoint>
+#include <QString>
 #include <QUrl>
 
 AK::String akstring_from_qstring(QString const&);

@@ -295,7 +295,7 @@ void BrowserWindow::new_tab()
     new_tab_with_url({});
 }
 
-void BrowserWindow::new_tab_with_url(const QUrl &url)
+void BrowserWindow::new_tab_with_url(QUrl const& url)
 {
     auto tab = make<Tab>(this, m_webdriver_fd_passing_socket);
     auto tab_ptr = tab.ptr();

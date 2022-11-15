@@ -10,13 +10,11 @@
 #include "Settings.h"
 #include "Utilities.h"
 #include <Browser/History.h>
-#include <QFont>
-#include <QFontMetrics>
-#include <QPlainTextEdit>
 #include <QClipboard>
 #include <QFont>
 #include <QFontMetrics>
 #include <QGuiApplication>
+#include <QPlainTextEdit>
 #include <QPoint>
 #include <QResizeEvent>
 #include <QUrl>
@@ -98,21 +96,21 @@ Tab::Tab(BrowserWindow* window, int webdriver_fd_passing_socket)
         m_forward_action->setEnabled(m_history.can_go_forward());
     });
 
-    QObject::connect(m_view, &WebContentView::link_content_menu, [this] (QPoint &local_position, const QUrl& url, unsigned ){
+    QObject::connect(m_view, &WebContentView::link_content_menu, [this](QPoint& local_position, QUrl const& url, unsigned) {
         auto global_position = this->mapToGlobal(local_position);
         auto menu = QMenu();
 
-        auto *copy_link_action = new QAction(tr("&Copy Link"));
-        auto *open_link_in_tab_action = new QAction(tr("Open link in a &new tab"));
+        auto* copy_link_action = new QAction(tr("&Copy Link"));
+        auto* open_link_in_tab_action = new QAction(tr("Open link in a &new tab"));
 
         menu.addAction(open_link_in_tab_action);
         menu.addAction(copy_link_action);
         auto res = menu.exec(global_position);
 
         if (res == copy_link_action) {
-            QClipboard *clipboard = QGuiApplication::clipboard();
+            QClipboard* clipboard = QGuiApplication::clipboard();
             clipboard->setText(url.toString());
-        } else if (res == open_link_in_tab_action){
+        } else if (res == open_link_in_tab_action) {
             auto browser_window = static_cast<BrowserWindow*>(m_window);
             browser_window->new_tab_with_url(url);
         }

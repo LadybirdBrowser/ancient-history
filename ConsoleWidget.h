@@ -35,7 +35,6 @@ public:
     Function<void(i32)> on_request_messages;
 
 private:
-
     void request_console_messages();
     void clear_output();
 
