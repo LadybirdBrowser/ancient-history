@@ -274,6 +274,7 @@ BrowserWindow::BrowserWindow(int webdriver_fd_passing_socket)
         setWindowTitle(QString("%1 - Ladybird").arg(m_tabs_container->tabText(index)));
         setWindowIcon(m_tabs_container->tabIcon(index));
         m_current_tab = verify_cast<Tab>(m_tabs_container->widget(index));
+        m_current_tab->select_location();
     });
     QObject::connect(m_tabs_container, &QTabWidget::tabCloseRequested, this, &BrowserWindow::close_tab);
     QObject::connect(close_current_tab_action, &QAction::triggered, this, &BrowserWindow::close_current_tab);
@@ -356,8 +357,11 @@ void BrowserWindow::tab_title_changed(int index, QString const& title)
 {
     if (title.isEmpty()) {
         m_tabs_container->setTabText(index, "...");
-        if (m_tabs_container->currentIndex() == index)
+        if (m_tabs_container->currentIndex() == index) {
             setWindowTitle("Ladybird");
+            if (m_current_tab->current_location() == "about:blank")
+                m_current_tab->select_location();
+        }
     } else {
         m_tabs_container->setTabText(index, title);
         if (m_tabs_container->currentIndex() == index)
