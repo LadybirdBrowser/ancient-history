@@ -29,6 +29,7 @@ public:
     void navigate(QString);
 
     void debug_request(String const& request, String const& argument);
+    const QString current_location()const { return m_location_edit->text(); }
 
 public slots:
     void focus_location_editor();
@@ -39,6 +40,7 @@ public slots:
     void forward();
     void home();
     void reload();
+    void select_location(){ m_location_edit->selectAll(); }
 
 signals:
     void title_changed(int id, QString);
