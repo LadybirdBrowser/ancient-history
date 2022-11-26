@@ -10,7 +10,9 @@
 #include <AK/LexicalPath.h>
 #include <AK/Platform.h>
 #include <LibCore/File.h>
+#include <LibGfx/Point.h>
 #include <QCoreApplication>
+#include <QPoint>
 
 String s_serenity_resource_root;
 
@@ -22,6 +24,16 @@ AK::String akstring_from_qstring(QString const& qstring)
 QString qstring_from_akstring(AK::String const& akstring)
 {
     return QString::fromUtf8(akstring.characters(), akstring.length());
+}
+
+QUrl qurl_from_akurl(AK::URL const& akurl)
+{
+    return QUrl(qstring_from_akstring(akurl.to_string()));
+}
+
+QPoint qpoint_from_intpoint(Gfx::IntPoint const& position)
+{
+    return QPoint(position.x(), position.y());
 }
 
 void platform_init()

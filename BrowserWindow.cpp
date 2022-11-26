@@ -292,8 +292,15 @@ void BrowserWindow::debug_request(String const& request, String const& argument)
 
 void BrowserWindow::new_tab()
 {
+    new_tab_with_url({});
+}
+
+void BrowserWindow::new_tab_with_url(QUrl const& url)
+{
     auto tab = make<Tab>(this, m_webdriver_fd_passing_socket);
     auto tab_ptr = tab.ptr();
+    if (!url.isEmpty())
+        tab->navigate(url.toString());
     m_tabs.append(std::move(tab));
 
     if (m_current_tab == nullptr) {

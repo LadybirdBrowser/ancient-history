@@ -6,11 +6,19 @@
 
 #pragma once
 
+#define AK_DONT_REPLACE_STD
 #include <AK/String.h>
+#include <AK/URL.h>
+#include <LibGfx/Forward.h>
+#include <QPoint>
 #include <QString>
+#include <QUrl>
 
 AK::String akstring_from_qstring(QString const&);
 QString qstring_from_akstring(AK::String const&);
+QUrl qurl_from_akurl(AK::URL const& akurl);
+QPoint qpoint_from_intpoint(Gfx::IntPoint const& position);
+
 void platform_init();
 
 extern String s_serenity_resource_root;
