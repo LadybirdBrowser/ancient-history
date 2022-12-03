@@ -6,6 +6,7 @@
 
 #define AK_DONT_REPLACE_STD
 
+#include "BrowserWindow.h"
 #include "WebContentView.h"
 #include "ConsoleWidget.h"
 #include "ModelTranslator.h"
@@ -55,8 +56,9 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
-WebContentView::WebContentView(int webdriver_fd_passing_socket)
-    : m_webdriver_fd_passing_socket(webdriver_fd_passing_socket)
+WebContentView::WebContentView(BrowserWindow* browser_window, int webdriver_fd_passing_socket)
+    : m_browser_window(browser_window)
+    , m_webdriver_fd_passing_socket(webdriver_fd_passing_socket)
 {
     setMouseTracking(true);
 
@@ -797,9 +799,10 @@ void WebContentView::notify_server_did_click_link(Badge<WebContentClient>, AK::U
 
 void WebContentView::notify_server_did_middle_click_link(Badge<WebContentClient>, AK::URL const& url, String const& target, unsigned int modifiers)
 {
-    (void)url;
     (void)target;
     (void)modifiers;
+
+    m_browser_window->create_tab_with_url(url.serialize());
 }
 
 void WebContentView::notify_server_did_start_loading(Badge<WebContentClient>, AK::URL const& url, bool is_redirect)

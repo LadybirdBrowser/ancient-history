@@ -283,6 +283,12 @@ BrowserWindow::BrowserWindow(int webdriver_fd_passing_socket)
     setCentralWidget(m_tabs_container);
 }
 
+void BrowserWindow::create_tab_with_url(AK::String const& url) {
+    new_tab();
+    auto& tab = m_tabs.last();
+    tab.navigate(qstring_from_akstring(url));
+}
+
 void BrowserWindow::debug_request(String const& request, String const& argument)
 {
     if (!m_current_tab)
