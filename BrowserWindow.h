@@ -28,6 +28,8 @@ public:
 
     int tab_index(Tab*);
 
+    void create_tab_with_url(AK::String const& url);
+
 public slots:
     void tab_title_changed(int index, QString const&);
     void tab_favicon_changed(int index, QIcon icon);

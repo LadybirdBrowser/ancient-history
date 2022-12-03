@@ -42,13 +42,14 @@ enum class ColorScheme {
 };
 
 class Tab;
+class BrowserWindow;
 
 class WebContentView final
     : public QAbstractScrollArea
     , public WebView::ViewImplementation {
     Q_OBJECT
 public:
-    explicit WebContentView(int webdriver_fd_passing_socket);
+    explicit WebContentView(BrowserWindow* browser_window, int webdriver_fd_passing_socket);
     virtual ~WebContentView() override;
 
     void load(AK::URL const&);
@@ -219,5 +220,6 @@ private:
 
     RefPtr<Gfx::Bitmap> m_backup_bitmap;
 
+    BrowserWindow* m_browser_window { nullptr };
     int m_webdriver_fd_passing_socket { -1 };
 };

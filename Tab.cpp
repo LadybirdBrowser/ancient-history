@@ -28,7 +28,7 @@ Tab::Tab(BrowserWindow* window, int webdriver_fd_passing_socket)
     m_layout->setSpacing(0);
     m_layout->setContentsMargins(0, 0, 0, 0);
 
-    m_view = new WebContentView(webdriver_fd_passing_socket);
+    m_view = new WebContentView(window, webdriver_fd_passing_socket);
     m_toolbar = new QToolBar(this);
     m_location_edit = new QLineEdit(this);
 
