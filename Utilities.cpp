@@ -41,7 +41,13 @@ void platform_init()
         if (Core::File::is_directory(home_lagom))
             return home_lagom;
         auto app_dir = ak_deprecated_string_from_qstring(QCoreApplication::applicationDirPath());
-        return LexicalPath(app_dir).parent().append("share"sv).string();
+        return LexicalPath::from_string(app_dir)
+            .release_value_but_fixme_should_propagate_errors()
+            .parent()
+            .release_value_but_fixme_should_propagate_errors()
+            .append("share"sv)
+            .release_value_but_fixme_should_propagate_errors()
+            .string().to_deprecated_string();
     }();
 #endif
 }
