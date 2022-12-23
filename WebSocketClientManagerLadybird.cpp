@@ -6,8 +6,8 @@
  */
 
 #include "WebSocketClientManagerLadybird.h"
-#include "WebSocketLadybird.h"
 #include "WebSocketImplQt.h"
+#include "WebSocketLadybird.h"
 
 namespace Ladybird {
 

@@ -1,9 +1,9 @@
 /*
-* Copyright (c) 2022, Dex♪ <dexes.ttp@gmail.com>
-* Copyright (c) 2022, Andreas Kling <kling@serenityos.org>
-*
-* SPDX-License-Identifier: BSD-2-Clause
-*/
+ * Copyright (c) 2022, Dex♪ <dexes.ttp@gmail.com>
+ * Copyright (c) 2022, Andreas Kling <kling@serenityos.org>
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
 
 #include <LibWeb/WebSockets/WebSocket.h>
 #include <LibWebSocket/ConnectionInfo.h>

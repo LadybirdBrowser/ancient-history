@@ -91,5 +91,4 @@ void TimerQt::set_single_shot(bool single_shot)
     m_timer->setSingleShot(single_shot);
 }
 
-
 }
