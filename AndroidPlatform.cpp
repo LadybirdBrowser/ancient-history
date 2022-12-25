@@ -150,13 +150,13 @@ ErrorOr<void> extract_tar_archive(DeprecatedString archive_file, DeprecatedStrin
             break;
         }
 
-        LexicalPath path = LexicalPath(header.filename());
+        LexicalPath path = TRY(LexicalPath::from_string(header.filename()));
         if (!header.prefix().is_empty())
-            path = path.prepend(header.prefix());
-        DeprecatedString filename = get_override("path"sv).value_or(path.string());
+            path = TRY(path.prepend(header.prefix()));
+        DeprecatedString filename = get_override("path"sv).value_or(path.string().to_deprecated_string());
 
         DeprecatedString absolute_path = Core::File::absolute_path(filename);
-        auto parent_path = LexicalPath(absolute_path).parent();
+        auto parent_path = TRY(TRY(LexicalPath::from_string(absolute_path)).parent().to_deprecated_string());
 
         switch (header.type_flag()) {
         case Archive::TarFileType::NormalFile:
