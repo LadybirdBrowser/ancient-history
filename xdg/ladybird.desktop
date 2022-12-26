@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Ladybird
+GenericName=Web Browser
+Comment=Web browser built on the SerenityOS LibWeb and LibJS engines with GUI in Qt
+Keywords=Internet;WWW;Web;Browser;SerenityOS;LibWeb;LibJS
+Exec=ladybird
+Icon=ladybird
+Terminal=false
+Type=Application
+MimeType=text/html;text/xml;application/xhtml+xml;text/markdown
+StartupNotify=true
+StartupWMClass=ladybird
+Categories=Network;WebBrowser;
